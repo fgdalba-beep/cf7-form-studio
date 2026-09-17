@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CF7 Form Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="extras.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">&lt;/&gt;</span><span>CF7 <b>STUDIO</b></span></a>
+    <div class="header-actions"><span class="save-state"><i></i> 자동 저장됨</span><button id="newForm" class="ghost">새 폼</button><button id="copyAll" class="primary">코드 복사 <span>↗</span></button></div>
+  </header>
+  <main>
+    <section class="intro">
+      <p class="eyebrow">WORDPRESS · CONTACT FORM 7</p>
+      <div><h1>폼을 설계하고,<br><em>즉시</em> 붙여넣으세요.</h1><p class="subtitle">필요한 항목을 조합하면 Contact Form 7용<br>마크업이 자동으로 완성됩니다.</p></div>
+    </section>
+    <section class="ai-studio" aria-labelledby="ai-title">
+      <div class="ai-orb">✦</div>
+      <div class="ai-copy"><p class="mini-label">AI FORM ASSISTANT</p><h2 id="ai-title">말로 설명하면 폼을 만들어 드려요.</h2><p>필요한 항목, 목적, 분위기를 적으면 Contact Form 7 양식으로 구성합니다.</p></div>
+      <div class="ai-action"><textarea id="aiPrompt" rows="3" placeholder="예: 병원 진료 예약 폼을 만들어줘. 성함, 연락처, 진료 과목, 희망 날짜, 문의 내용과 개인정보 동의를 넣어줘."></textarea><div><span id="aiStatus" class="ai-status">AI가 필드와 문구를 제안합니다.</span><button id="generateAI" class="ai-button">✦ AI로 폼 생성</button></div></div>
+    </section>
+    <section class="workspace">
+      <aside class="fields-panel">
+        <div class="panel-title"><div><p class="mini-label">FORM STRUCTURE</p><h2>폼 항목</h2></div><button id="addField" class="round-add" aria-label="항목 추가">+</button></div>
+        <div id="fieldList" class="field-list"></div>
+        <button id="addFieldWide" class="add-wide">+ 새 항목 추가</button>
+        <div class="form-settings">
+          <p class="mini-label">FORM SETTINGS</p>
+          <label>폼 제목<input id="formTitle" value="문의하기" /></label>
+          <label class="check-row"><input id="showLabels" type="checkbox" checked /><span>라벨 텍스트 포함</span></label>
+        </div>
+      </aside>
+      <section class="editor-panel">
+        <div class="panel-title"><div><p class="mini-label">FIELD EDITOR</p><h2 id="editorTitle">항목을 선택하세요</h2></div><span id="fieldBadge" class="type-badge">TEXT</span></div>
+        <div id="editorEmpty" class="editor-empty">왼쪽에서 항목을 선택하거나 새 항목을 추가해 보세요.</div>
+        <div id="fieldEditor" class="field-editor hidden">
+          <div class="form-grid">
+            <label>필드 유형<select id="inputType"><option value="text">한 줄 텍스트</option><option value="email">이메일</option><option value="tel">전화번호</option><option value="url">웹사이트 URL</option><option value="number">숫자</option><option value="textarea">여러 줄 텍스트</option><option value="select">드롭다운</option><option value="checkbox">체크박스</option><option value="radio">라디오 버튼</option><option value="acceptance">동의 체크</option><option value="date">날짜</option></select></label>
+            <label>필드 이름<input id="inputName" placeholder="your-name" /></label>
+            <label>라벨<input id="inputLabel" placeholder="성함" /></label>
+            <label>플레이스홀더<input id="inputPlaceholder" placeholder="성함을 입력해 주세요" /></label>
+          </div>
+          <div id="optionsWrap" class="options-wrap hidden"><label>선택지 <span class="hint">쉼표(,)로 구분</span><input id="inputOptions" placeholder="서비스 문의, 제휴 문의, 기타" /></label></div>
+          <label id="phoneFormatWrap" class="phone-format hidden"><input id="inputPhoneFormat" type="checkbox" /><span>전화번호 하이픈(-) 자동 입력</span><small>예: 01012345678 → 010-1234-5678</small></label>
+          <div class="editor-footer"><label class="required-toggle"><input id="inputRequired" type="checkbox" /><span class="toggle"></span>필수 입력</label><button id="deleteField" class="delete-btn">항목 삭제</button></div>
+        </div>
+      </section>
+      <section class="output-panel">
+        <div class="output-tabs"><button class="tab active" data-tab="code">폼 코드</button><button class="tab" data-tab="script">자동 입력 스크립트</button><button class="tab" data-tab="preview">미리보기</button></div>
+        <div id="codeView" class="code-view"><pre><code id="codeOutput"></code></pre><button id="copyCode" class="copy-small">복사</button></div>
+        <div id="scriptView" class="code-view hidden"><pre><code id="scriptOutput"></code></pre><button id="copyScript" class="copy-small">복사</button></div>
+        <div id="previewView" class="preview-view hidden"></div>
+        <div class="output-footer"><span><b>TIP.</b> 워드프레스 관리자 → 문의 → 문의 양식에 붙여넣으세요.</span></div>
+      </section>
+    </section>
+  </main>
+  <div id="toast" class="toast">클립보드에 복사했습니다.</div>
+  <script src="app.js"></script>
+</body>
+</html>
